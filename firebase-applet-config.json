@@ -1,10 +1,9 @@
-{
-  "projectId": "gen-lang-client-0204281680",
-  "appId": "1:448689130608:web:9702ea8cac8d644c91f8b5",
-  "apiKey": "AIzaSyAK8UZJ-aq7HjFEiJLPNTEGlNgG0FBYYYc",
-  "authDomain": "gen-lang-client-0204281680.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-09debabd-4c3f-4b27-948c-627b21e02074",
-  "storageBucket": "gen-lang-client-0204281680.firebasestorage.app",
-  "messagingSenderId": "448689130608",
-  "measurementId": ""
-}
+const firebaseConfig = {
+  apiKey: "AIzaSyDJ1wU5LoHK2JkbvpzamrzMb7KMTdzZ3Z8",
+  authDomain: "matambayi-99c96.firebaseapp.com",
+  projectId: "matambayi-99c96",
+  firestoreDatabaseId: "default",
+  storageBucket: "matambayi-99c96.firebasestorage.app",
+  messagingSenderId: "12632852756",
+  appId: "1:12632852756:web:03de77deeba9f4679e5a01"
+};

@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Enable secure communication with our cloud hosted database instances
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+    match /questions/{questionId} {
+      allow read, write: if true;
+    }
+    match /answers/{answerId} {
+      allow read, write: if true;
+    }
+    match /comments/{commentId} {
+      allow read, write: if true;
+    }
+    match /notifications/{notificationId} {
+      allow read, write: if true;
+    }
+    
+    // Default deny catch-all for unknown entities
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

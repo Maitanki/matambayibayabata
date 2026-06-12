@@ -1,0 +1,120 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User account schema for Matambayi forum",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique user ID" },
+        "username": { "type": "string", "description": "Unique username in standard Hausa syntax" },
+        "email": { "type": "string", "format": "email", "description": "Verify unique user email address" },
+        "name": { "type": "string", "description": "Full name" },
+        "passwordHash": { "type": "string", "description": "Secure hashed password" },
+        "recoveryPin": { "type": "string", "description": "Recovery pin" },
+        "role": { "type": "string", "enum": ["admin", "user"], "description": "Access control roles" },
+        "reputation": { "type": "integer", "description": "Karma user points score" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Enrollment timestamp" },
+        "avatarUrl": { "type": "string", "description": "URL of profile picture avatar" },
+        "bio": { "type": "string", "description": "Short biography description" },
+        "interests": { "type": "array", "description": "Selected key tags of interest" }
+      },
+      "required": ["id", "username", "email", "name", "role", "reputation", "createdAt"]
+    },
+    "Question": {
+      "title": "Question",
+      "description": "Matambayi community asked questions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique question identifier" },
+        "title": { "type": "string", "description": "Main title question" },
+        "body": { "type": "string", "description": "Context and explanations" },
+        "tags": { "type": "array", "description": "Topics categorize array" },
+        "authorId": { "type": "string", "description": "User ID of creator" },
+        "authorName": { "type": "string", "description": "Username of creator" },
+        "authorReputation": { "type": "integer", "description": "Current score of creator" },
+        "upvotes": { "type": "array", "description": "User list that liked question" },
+        "downvotes": { "type": "array", "description": "User list that disliked question" },
+        "votesCount": { "type": "integer", "description": "Calculated score points" },
+        "bestAnswerId": { "type": "string", "description": "Optional answer ID selected as correct" },
+        "answersCount": { "type": "integer", "description": "Total answer count" },
+        "commentsCount": { "type": "integer", "description": "Total comment count" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["id", "title", "body", "tags", "authorId", "authorName", "upvotes", "downvotes", "votesCount"]
+    },
+    "Answer": {
+      "title": "Answer",
+      "description": "Responses provided to queries",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique answer identifier" },
+        "questionId": { "type": "string", "description": "Parent question reference" },
+        "body": { "type": "string", "description": "Answering text context" },
+        "authorId": { "type": "string", "description": "User ID of answering member" },
+        "authorName": { "type": "string", "description": "Username of answering member" },
+        "authorReputation": { "type": "integer", "description": "Current reputation score of answerer" },
+        "upvotes": { "type": "array", "description": "Users liking the response" },
+        "downvotes": { "type": "array", "description": "Users disliking the response" },
+        "votesCount": { "type": "integer", "description": "Aggregated answer votes" },
+        "isBest": { "type": "boolean", "description": "Whether selected as accepted answer" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["id", "questionId", "body", "authorId", "authorName", "upvotes", "downvotes", "votesCount", "isBest"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "Short feedback or annotation comments",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique comment locator" },
+        "parentId": { "type": "string", "description": "Question ID or Answer ID" },
+        "parentType": { "type": "string", "enum": ["question", "answer"], "description": "Target entity category" },
+        "body": { "type": "string", "description": "Annotative comment body" },
+        "authorId": { "type": "string", "description": "Author UID" },
+        "authorName": { "type": "string", "description": "Author username" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["id", "parentId", "parentType", "body", "authorId", "authorName", "createdAt"]
+    },
+    "AppNotification": {
+      "title": "AppNotification",
+      "description": "Internal notifications schema",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique notification ID" },
+        "recipientId": { "type": "string", "description": "Whom the alert belongs to" },
+        "senderId": { "type": "string", "description": "Who triggered this alert" },
+        "senderName": { "type": "string", "description": "Sender username label" },
+        "type": { "type": "string", "enum": ["answer", "followed_topic"], "description": "Notification category" },
+        "questionId": { "type": "string", "description": "Question ID redirect target" },
+        "questionTitle": { "type": "string", "description": "Snapshot of the question title" },
+        "topic": { "type": "string", "description": "Optional keyword topic" },
+        "isRead": { "type": "boolean", "description": "Status alert read state" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timing logged alert" }
+      },
+      "required": ["id", "recipientId", "senderId", "senderName", "type", "questionId", "questionTitle", "isRead", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Root path directory storing user credentials"
+    },
+    "/questions/{questionId}": {
+      "schema": "Question",
+      "description": "Matambayi community asked questions"
+    },
+    "/answers/{answerId}": {
+      "schema": "Answer",
+      "description": "Responses provided to core questions"
+    },
+    "/comments/{commentId}": {
+      "schema": "Comment",
+      "description": "Ancillary reactions and feedbacks"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "AppNotification",
+      "description": "Alert signals for active participants"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Matambayi",
+  "description": "Wurin tambaya da raba ilimi na al'ummar Hausawa. Dandalin tattaunawa, upvotes da raba kwarewa.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
